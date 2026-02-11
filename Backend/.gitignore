@@ -37,6 +37,8 @@ project.nuget.cache
 ############################################
 appsettings.Production.json
 appsettings.Staging.json
+appsettings.Production.json
+appsettings.Development.json
 **/secrets.json
 
 ############################################

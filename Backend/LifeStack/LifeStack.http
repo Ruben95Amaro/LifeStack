@@ -1,6 +1,3 @@
 @LifeStack_HostAddress = http://localhost:5150
 
-GET {{LifeStack_HostAddress}}/weatherforecast/
-Accept: application/json
-
 ###
