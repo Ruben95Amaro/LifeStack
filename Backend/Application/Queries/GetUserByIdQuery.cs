@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.Queries
 {
-    public record GetUserByIdQuery(Guid UserId) : IRequest<UserEntities>;
+    public record GetUserByIdQuery(string UserId) : IRequest<UserEntities>;
 
     public class GetUserByIdQueryHandler(IUserRepository userRepository)
         : IRequestHandler<GetUserByIdQuery, UserEntities>

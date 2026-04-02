@@ -2,7 +2,6 @@
 using Domain.Interfaces;
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 
 namespace Infrastructure.Repositories
 {
@@ -13,34 +12,30 @@ namespace Infrastructure.Repositories
             return await dbContext.Users.ToListAsync();
         }
 
-        public async Task<UserEntities> GetUserByIdAsync(Guid id)
-        {
-            return await dbContext.Users.FirstOrDefaultAsync(user => user.Id == id);
-        }
+        public async Task<UserEntities> GetUserByIdAsync(string id) => await dbContext.Users.FirstOrDefaultAsync(user => user.Id == id);
 
         public async Task<UserEntities> AddUserAsync(UserEntities entity)
         {
-            entity.Id = Guid.NewGuid();
             dbContext.Users.Add(entity);
             await dbContext.SaveChangesAsync();
             return entity;
         }
 
-        public async Task<UserEntities> UpdateUserAsync(Guid userid, UserEntities entity)
+        public async Task<UserEntities> UpdateUserAsync(string userid, UserEntities entity)
         {
             var user = await dbContext.Users.FirstOrDefaultAsync(user => user.Id == userid);
 
-            if (user is null) return entity; 
+            if (user is null) return entity;
 
-            user.FirstName = entity.FirstName;
-            user.LastName = entity.LastName;
-            user.Email = entity.Email;
+            user.SetName(entity.FirstName, entity.LastName);
+            user.SetEmail(entity.Email);
+            user.SetUserName(entity.UserName);
 
             await dbContext.SaveChangesAsync();
             return user;
         }
 
-        public async Task<bool> DeleteUserAsync(Guid userid)
+        public async Task<bool> DeleteUserAsync(string userid)
         {
             var user = await dbContext.Users.FirstOrDefaultAsync(user => user.Id == userid);
 

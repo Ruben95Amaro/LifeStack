@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.Commands
 {
-    public record DeleteUserCommand(Guid UserId) : IRequest<bool>;
+    public record DeleteUserCommand(string UserId) : IRequest<bool>;
 
     internal class DeleteUserCommandHandler(IUserRepository userRepository)
         : IRequestHandler<DeleteUserCommand, bool>
