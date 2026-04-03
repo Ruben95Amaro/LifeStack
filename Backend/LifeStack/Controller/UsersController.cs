@@ -15,8 +15,7 @@ namespace Web.Api.Controller
         [HttpPost("")]
         public async Task<IActionResult> AddUserAsync([FromBody] UserDTO userDTO)
         {
-            UserEntities user = UserMapper.FromDTO(userDTO);
-            var result = await sender.Send(new AddUserCommand(user));
+            var result = await sender.Send(new AddUserCommand(userDTO));
             return Ok(result);
         }
 
@@ -35,9 +34,10 @@ namespace Web.Api.Controller
         }
 
         [HttpPut("{userId}")]
-        public async Task<IActionResult> UpdateUserAsync([FromRoute] string userId, [FromBody] UserDTO user)
+        public async Task<IActionResult> UpdateUserAsync([FromRoute] string userId, [FromBody] UserDTO userDTO)
         {
-            var result = await sender.Send(new UpdateUserCommand(userId, user));
+
+            var result = await sender.Send(new UpdateUserCommand(userId, userDTO));
             return Ok(result);
         }
 

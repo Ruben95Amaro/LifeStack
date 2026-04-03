@@ -7,43 +7,33 @@ namespace Infrastructure.Repositories
 {
     public class UserRepository(ApplicationDbContext dbContext) : IUserRepository
     {
-        public async Task<IEnumerable<UserEntities>> GetUsers()
+        public async Task<IEnumerable<UserEntity>> GetUsers()
         {
             return await dbContext.Users.ToListAsync();
         }
 
-        public async Task<UserEntities> GetUserByIdAsync(string id) => await dbContext.Users.FirstOrDefaultAsync(user => user.Id == id);
+        public async Task<UserEntity> GetUserByIdAsync(string id) => await dbContext.Users.FirstOrDefaultAsync(user => user.Id == id);
 
-        public async Task<UserEntities> AddUserAsync(UserEntities entity)
+        public async Task<UserEntity> AddUserAsync(UserEntity entity)
         {
             dbContext.Users.Add(entity);
             await dbContext.SaveChangesAsync();
             return entity;
         }
 
-        public async Task<UserEntities> UpdateUserAsync(string userid, UserEntities entity)
+        public async Task<UserEntity> UpdateUserAsync(string userid, UserEntity entity)
         {
-            var user = await dbContext.Users.FirstOrDefaultAsync(user => user.Id == userid);
-
-            if (user is null) return entity;
-
-            user.SetName(entity.FirstName, entity.LastName);
-            user.SetEmail(entity.Email);
-            user.SetUserName(entity.UserName);
-
+            dbContext.Users.Update(entity);
             await dbContext.SaveChangesAsync();
-            return user;
+            return entity;
         }
 
-        public async Task<bool> DeleteUserAsync(string userid)
+        public async Task<bool> DeleteUserAsync(UserEntity entity)
         {
-            var user = await dbContext.Users.FirstOrDefaultAsync(user => user.Id == userid);
+            dbContext.Users.Remove(entity);
+            var result = await dbContext.SaveChangesAsync();
 
-            if (user is null) return false;
-
-            dbContext.Users.Remove(user);    
-
-            return await dbContext.SaveChangesAsync() > 0;
+            return result > 0;
         }
     }
 }

@@ -5,11 +5,11 @@ namespace Domain.Interfaces
 {
     public interface IUserRepository
     {
-        Task<IEnumerable<UserEntities>> GetUsers();
-        Task<UserEntities> GetUserByIdAsync(string id);
-        Task<UserEntities> AddUserAsync(UserEntities entity);
-        Task<UserEntities> UpdateUserAsync(string userid, UserEntities entity);
-        Task<bool> DeleteUserAsync(string userid);
+        Task<IEnumerable<UserEntity>> GetUsers();
+        Task<UserEntity> GetUserByIdAsync(string userid);
+        Task<UserEntity> AddUserAsync(UserEntity entity);
+        Task<UserEntity> UpdateUserAsync(string userid, UserEntity entity);
+        Task<bool> DeleteUserAsync(UserEntity entity);
 
 
     }

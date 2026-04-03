@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.4.11626.88 stable
+VisualStudioVersion = 18.4.11626.88
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Api", "Web.Api.csproj", "{C8DA9831-753C-458D-9C13-CAB7CBB7A31A}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{13EE11E1-28F0-4F1A-973C-F992795E6D95}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "..\Domain\Domain.csproj", "{A9CE81E3-8282-4487-9BBB-4E624504DF2E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel", "..\SharedKernel\SharedKernel.csproj", "{C71DB168-5872-1C86-3B8B-5FDF83D4892C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +39,10 @@ Global
 		{A9CE81E3-8282-4487-9BBB-4E624504DF2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9CE81E3-8282-4487-9BBB-4E624504DF2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9CE81E3-8282-4487-9BBB-4E624504DF2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C71DB168-5872-1C86-3B8B-5FDF83D4892C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C71DB168-5872-1C86-3B8B-5FDF83D4892C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C71DB168-5872-1C86-3B8B-5FDF83D4892C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C71DB168-5872-1C86-3B8B-5FDF83D4892C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +52,7 @@ Global
 		{67F3B8A6-29FF-4E12-A147-172A4B94F766} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{72BAAA4C-9084-4D58-AE2B-B6E4CABC35F0} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{A9CE81E3-8282-4487-9BBB-4E624504DF2E} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{C71DB168-5872-1C86-3B8B-5FDF83D4892C} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {274F87F9-91FD-487B-A33E-C83E4539C5D8}

@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
-
+﻿
+using Microsoft.AspNetCore.Identity;
 
 namespace Domain.Entities
 {
-    public class UserEntities : IdentityUser
+
+    public class UserEntity : IdentityUser
     {
 
 
@@ -13,9 +14,9 @@ namespace Domain.Entities
         public string? FirstName { get; private set; } = null!;
         public string? LastName { get; private set; } = null!;
 
-        private UserEntities() { }
+        private UserEntity() { }
 
-        public UserEntities(string firstName, string lastName, string userName, string email, string passwordHash)
+        public UserEntity(string firstName, string lastName, string userName, string email, string passwordHash)
         {
             SetUserName(userName);
             SetName(firstName, lastName);
@@ -25,7 +26,7 @@ namespace Domain.Entities
 
         public void SetName(string? firstName, string? lastName)
         {
-            if (!string.IsNullOrWhiteSpace(firstName) && firstName != FirstName )
+            if (!string.IsNullOrWhiteSpace(firstName) && firstName != FirstName)
                 FirstName = firstName;
 
             if (!string.IsNullOrWhiteSpace(lastName) && lastName != LastName)
@@ -34,7 +35,7 @@ namespace Domain.Entities
 
         public void SetEmail(string email)
         {
-            if (!string.IsNullOrWhiteSpace(email) && !email.Contains("@") && email != Email)
+            if (!string.IsNullOrWhiteSpace(email) && email.Contains("@") && email != Email)
                 Email = email;
         }
 

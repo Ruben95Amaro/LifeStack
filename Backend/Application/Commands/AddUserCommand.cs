@@ -1,22 +1,25 @@
-﻿using Domain.Entities;
+﻿using Application.DTOs;
+using Application.Mappers;
+using Domain.Entities;
 using Domain.Interfaces;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Application.Commands
 {
-    public record AddUserCommand(UserEntities user): IRequest<UserEntities>;
+    public record AddUserCommand(UserDTO User)
+    : IRequest<UserEntity>;
+
 
     public class AddUserCommandHandler(IUserRepository userRepository)
-        : IRequestHandler<AddUserCommand, UserEntities>
+    : IRequestHandler<AddUserCommand, UserEntity>
     {
-        public async Task<UserEntities> Handle(AddUserCommand request, CancellationToken cancellationToken)
+        public async Task<UserEntity> Handle(AddUserCommand request, CancellationToken cancellationToken)
         {
-            return await userRepository.AddUserAsync(request.user);
+            UserEntity user = UserMapper.FromDTO(request.User);
+
+            return await userRepository.AddUserAsync(user);
         }
     }
+
 }
