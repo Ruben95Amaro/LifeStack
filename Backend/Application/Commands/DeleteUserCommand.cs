@@ -10,8 +10,9 @@ using System.Threading.Tasks;
 
 namespace Application.Commands
 {
-
-    public record DeleteUserCommand(string UserId)
+    // Command representing the intent to delete a user by Id.
+    // Using a record ensures immutability and aligns well with MediatR practices.
+    public record DeleteUserCommand(string userId)
     : IRequest<bool>;
 
     internal class DeleteUserCommandHandler(IUserRepository userRepository)
@@ -19,7 +20,7 @@ namespace Application.Commands
     {
         public async Task<bool> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
-            UserEntity user = await userRepository.GetUserByIdAsync(request.UserId);
+            UserEntity user = await userRepository.GetUserByIdAsync(request.userId);
 
             if (user is null)
                 throw new Exception("User not found");

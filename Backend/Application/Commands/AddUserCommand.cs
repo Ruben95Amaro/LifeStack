@@ -3,22 +3,29 @@ using Application.Mappers;
 using Domain.Entities;
 using Domain.Interfaces;
 using MediatR;
+using SharedKernel;
 
 
 namespace Application.Commands
 {
+    // Command representing the intent to create a new user.
+    // Using a record ensures immutability and aligns well with MediatR practices.
     public record AddUserCommand(UserDTO User)
-    : IRequest<UserEntity>;
+    : IRequest<Result<UserEntity>>;
 
-
+    // Handler responsible for processing the AddUserCommand.
+    // The repository is injected via dependency injection, promoting loose coupling.
     public class AddUserCommandHandler(IUserRepository userRepository)
-    : IRequestHandler<AddUserCommand, UserEntity>
+    : IRequestHandler<AddUserCommand, Result>
     {
-        public async Task<UserEntity> Handle(AddUserCommand request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(AddUserCommand request, CancellationToken cancellationToken)
         {
             UserEntity user = UserMapper.FromDTO(request.User);
 
-            return await userRepository.AddUserAsync(user);
+            var createdUser = await userRepository.AddUserAsync(user);
+
+
+            return createdUser;
         }
     }
 

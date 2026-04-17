@@ -4,19 +4,36 @@ using Application.Mappers;
 using Application.Queries;
 using Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Api.Controller
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
+
     public class UsersController(ISender sender) : ControllerBase
     {
-        [HttpPost("")]
+        // HTTP POST endpoint to create a new user.
+        // Accepts a UserDTO from the request body.
+        [HttpPost]
         public async Task<IActionResult> AddUserAsync([FromBody] UserDTO userDTO)
         {
-            var result = await sender.Send(new AddUserCommand(userDTO));
-            return Ok(result);
+            try
+            {
+                var result = await sender.Send(new AddUserCommand(userDTO));
+
+                var routeValues = new { userId = result.Value.Id };
+                return CreatedAtAction(
+                    nameof(GetUserByIdAsync),
+                    routeValues,
+                    routeValues
+                );
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("")]

@@ -11,6 +11,11 @@ namespace Web.Api
             services.AddApplicationDI().
                 AddInfrastructureDI()
                 .AddDomainDI(configuration);
+
+            services.AddMvc(options =>
+            {
+                options.SuppressAsyncSuffixInActionNames = false;
+            });
             return services;
         }
     }

@@ -2,30 +2,37 @@
 using Domain.Entities;
 using Domain.Interfaces;
 using MediatR;
+using SharedKernel;
 
 namespace Application.Commands;
 
-public record UpdateUserCommand(string UserId, UserDTO UserDTO)
-    : IRequest<UserEntity>;
+// Command representing the intent to update a user by Id.
+// Using a record ensures immutability and aligns well with MediatR practices.
+public record UpdateUserCommand(string userId, UserDTO UserDTO)
+    : IRequest<Result>;
 
 public class UpdateUserCommandHandler(IUserRepository userRepository)
-    : IRequestHandler<UpdateUserCommand, UserEntity>
+    : IRequestHandler<UpdateUserCommand, Result>
 {
-    public async Task<UserEntity> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+    public async Task<Result> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
-        var user = await userRepository.GetUserByIdAsync(request.UserId);
+        var user = await userRepository.GetUserByIdAsync(request.userId);
 
         if (user == null)
-            throw new Exception("User not found");
+            Result.Failure(UserErrors.NotFoundByEmail);
 
-        user.SetName(request.UserDTO.FirstName, request.UserDTO.LastName);
-        user.SetEmail(request.UserDTO.Email);
+        var userUpdateResponse = user.Update(request.UserDTO.FirstName, request.UserDTO.LastName, request.UserDTO.Email);
 
-        await userRepository.UpdateUserAsync(user.Id,user);
+        if (userUpdateResponse.IsSuccess)
+        {
+            await userRepository.UpdateUserAsync(user.Id, user);
+                
+        }
+        return userUpdateResponse;
+        
 
-
-        return user;
     }
 }
+
 
 

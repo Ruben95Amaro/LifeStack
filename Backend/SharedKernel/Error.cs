@@ -24,6 +24,7 @@ public record Error
     public static Error Failure(string code, string description) =>
         new(code, description, ErrorType.Failure);
 
+
     public static Error NotFound(string code, string description) =>
         new(code, description, ErrorType.NotFound);
 
@@ -32,4 +33,5 @@ public record Error
 
     public static Error Conflict(string code, string description) =>
         new(code, description, ErrorType.Conflict);
+
 }

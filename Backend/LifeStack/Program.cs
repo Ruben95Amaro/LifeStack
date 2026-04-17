@@ -12,6 +12,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddAppDI(builder.Configuration);
 
+
+
 var app = builder.Build();
 
 
