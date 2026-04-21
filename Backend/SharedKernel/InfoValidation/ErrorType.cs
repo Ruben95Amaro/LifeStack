@@ -1,4 +1,4 @@
-﻿namespace SharedKernel;
+﻿namespace SharedKernel.InfoValidation;
 
 public enum ErrorType
 {

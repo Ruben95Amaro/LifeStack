@@ -1,7 +1,7 @@
-﻿using Application.DTOs;
-using Domain.Entities;
+﻿using Application.Users.DTOs;
+using Domain.Users.Entities;
 
-namespace Application.Mappers
+namespace Application.Users.Mappers
 {
     public static class UserMapper
     {

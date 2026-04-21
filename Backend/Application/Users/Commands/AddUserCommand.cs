@@ -1,12 +1,12 @@
-﻿using Application.DTOs;
-using Application.Mappers;
-using Domain.Entities;
-using Domain.Interfaces;
+﻿using Application.Users.DTOs;
+using Application.Users.Mappers;
+using Domain.Users.Entities;
+using Domain.Users.Interfaces;
 using MediatR;
-using SharedKernel;
+using SharedKernel.InfoValidation;
 
 
-namespace Application.Commands
+namespace Application.Users.Commands
 {
     // Command representing the intent to create a new user.
     // Using a record ensures immutability and aligns well with MediatR practices.

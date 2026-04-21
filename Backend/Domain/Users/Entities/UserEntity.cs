@@ -1,11 +1,10 @@
-﻿
-using Microsoft.AspNetCore.Identity;
-using SharedKernel;
+﻿using Microsoft.AspNetCore.Identity;
+using SharedKernel.InfoValidation;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Cryptography;
 
-namespace Domain.Entities
+namespace Domain.Users.Entities
 {
 
     public class UserEntity : IdentityUser

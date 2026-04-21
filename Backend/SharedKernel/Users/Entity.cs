@@ -1,4 +1,6 @@
-﻿namespace SharedKernel;
+﻿using SharedKernel.InfoValidation;
+
+namespace SharedKernel.Users;
 
 public abstract class Entity
 {

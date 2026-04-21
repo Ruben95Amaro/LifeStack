@@ -1,8 +1,8 @@
-﻿using Domain.Entities;
-using Domain.Interfaces;
+﻿using Domain.Users.Entities;
+using Domain.Users.Interfaces;
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
-using SharedKernel;
+using SharedKernel.InfoValidation;
 using System.ComponentModel;
 
 namespace Infrastructure.Repositories

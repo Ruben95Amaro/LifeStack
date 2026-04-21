@@ -1,4 +1,4 @@
-﻿namespace SharedKernel;
+﻿namespace SharedKernel.InfoValidation;
 
 public interface IDomainEventHandler<in T> where T : IDomainEvent
 {

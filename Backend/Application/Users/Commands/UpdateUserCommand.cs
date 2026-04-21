@@ -1,10 +1,10 @@
-﻿using Application.DTOs;
-using Domain.Entities;
-using Domain.Interfaces;
+﻿using Application.Users.DTOs;
+using Domain.Users.Entities;
+using Domain.Users.Interfaces;
 using MediatR;
-using SharedKernel;
+using SharedKernel.InfoValidation;
 
-namespace Application.Commands;
+namespace Application.Users.Commands;
 
 // Command representing the intent to update a user by Id.
 // Using a record ensures immutability and aligns well with MediatR practices.

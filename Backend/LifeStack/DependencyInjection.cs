@@ -9,7 +9,7 @@ namespace Web.Api
         public static IServiceCollection AddAppDI(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddApplicationDI().
-                AddInfrastructureDI()
+                AddInfrastructureDI(configuration)
                 .AddDomainDI(configuration);
 
             services.AddMvc(options =>

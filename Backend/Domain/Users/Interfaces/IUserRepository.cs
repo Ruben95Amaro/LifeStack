@@ -1,8 +1,8 @@
-﻿using Domain.Entities;
-using SharedKernel;
+﻿using Domain.Users.Entities;
+using SharedKernel.InfoValidation;
 
 
-namespace Domain.Interfaces
+namespace Domain.Users.Interfaces
 {
     public interface IUserRepository
     {

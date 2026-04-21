@@ -1,7 +1,7 @@
-﻿using SharedKernel;
+﻿using SharedKernel.InfoValidation;
 
 
-namespace Domain.Entities
+namespace Domain.Users.Entities
 {
     public static class UserErrors
     {

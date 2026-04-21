@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace SharedKernel;
+namespace SharedKernel.InfoValidation;
 
 public class Result
 {

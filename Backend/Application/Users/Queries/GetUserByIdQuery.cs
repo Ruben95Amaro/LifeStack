@@ -1,8 +1,8 @@
-﻿using Domain.Entities;
-using Domain.Interfaces;
+﻿using Domain.Users.Entities;
+using Domain.Users.Interfaces;
 using MediatR;
 
-namespace Application.Queries
+namespace Application.Users.Queries
 {
     public record GetUserByIdQuery(string UserId) : IRequest<UserEntity>;
 

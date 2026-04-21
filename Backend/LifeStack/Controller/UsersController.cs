@@ -1,10 +1,7 @@
-﻿using Application.Commands;
-using Application.DTOs;
-using Application.Mappers;
-using Application.Queries;
-using Domain.Entities;
+﻿using Application.Users.Commands;
+using Application.Users.Queries;
+using Application.Users.DTOs;
 using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Api.Controller
