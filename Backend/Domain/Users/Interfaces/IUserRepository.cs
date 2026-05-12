@@ -16,9 +16,6 @@ namespace Domain.Users.Interfaces
         Task<UserEntity> GetByIdAsync(Guid id);
         Task<UserEntity> GetByEmailAsync(string email);
 
-        // Defines a contract for adding a new user to the data store.
-        // Accepts a domain entity as input, keeping the repository aligned with the domain layer.
-        Task<Result> AddAsync(UserEntity entity);
 
         // Updates an existing user identified by id.
         // Accepts the updated entity data.
@@ -28,6 +25,9 @@ namespace Domain.Users.Interfaces
         // Accepts the entity to be removed.
         Task<bool> DeleteAsync(UserEntity entity);
 
+
+        // Defines a contract for adding a new user to the data store.
+        // Accepts a domain entity as input, keeping the repository aligned with the domain layer.
         Task<Result> Register(UserEntity entity);
 
 

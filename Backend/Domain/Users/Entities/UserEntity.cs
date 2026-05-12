@@ -26,7 +26,6 @@ public class UserEntity : IdentityUser<Guid>
         CreatedAt = DateTime.UtcNow.ToString();
     }
 
-    // 🔥 CREATE (STATIC)
     public static Result<UserEntity> CreateUser(string email, string firstName, string lastName, string passwordHash)
     {
         var user = new UserEntity();
@@ -45,8 +44,6 @@ public class UserEntity : IdentityUser<Guid>
 
         return Result.Success(user);
     }
-
-    // 🔥 UPDATE (INSTANCE)
     public Result Update(string firstName, string lastName, string email, string passwordHash)
     {
         var emailResult = SetEmail(email);
@@ -61,7 +58,6 @@ public class UserEntity : IdentityUser<Guid>
         return Result.Success();
     }
 
-    // 🔥 INSTANCE METHODS (NÃO static!)
 
     public Result SetName(string? firstName, string? lastName)
     {

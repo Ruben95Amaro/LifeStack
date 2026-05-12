@@ -53,6 +53,9 @@ namespace Domain.Users.Entities
     "Users.BirthDayNotInTheFuture",
      "Birthday cannot be in the future");
 
+        public static readonly Error ConflitOnSaveUser = Error.Conflict(
+   "Users.ConflitOnSaveUser",
+    "Error on save on user on DataBase ");
 
     }
 }

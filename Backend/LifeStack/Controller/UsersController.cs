@@ -2,11 +2,9 @@
 using Application.Users.DTOs;
 using Application.Users.Login;
 using Application.Users.Queries;
-using Domain.Users.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Formatters.Xml;
-using SharedKernel.InfoValidation;
+
 
 namespace Web.Api.Controller
 {
@@ -25,9 +23,10 @@ namespace Web.Api.Controller
                 var result = await sender.Send(new RegisteUserCommand(userDTO));
 
                 if (result.IsFailure)
-                    return Unauthorized(result.Error.Description);
-
-                var routeValues = new { email = result.Value.Email.ToString() };
+                    return Conflict(result.Error.Description);
+                
+                
+                var routeValues = new { email = result.Value.Email };
 
                 return CreatedAtAction(
                     nameof(GetByEmail),

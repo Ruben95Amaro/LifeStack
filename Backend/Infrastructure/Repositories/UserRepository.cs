@@ -18,14 +18,6 @@ namespace Infrastructure.Repositories
         public async Task<UserEntity> GetByIdAsync(Guid id) => await dbContext.Users.FirstOrDefaultAsync(user => user.Id == id);
         public async Task<UserEntity> GetByEmailAsync(string email) => await dbContext.Users.FirstOrDefaultAsync(user => user.Email == email);
 
-        // Adds a new user to the database.
-        // The entity is tracked by EF Core after being added.
-        public async Task<Result> AddAsync(UserEntity entity)
-        {
-            var response = dbContext.Users.AddAsync(entity);
-            await dbContext.SaveChangesAsync();
-            return Result.Success();
-        }
 
         public async Task<Result> UpdateAsync(Guid id, UserEntity entity)
         {
@@ -50,13 +42,26 @@ namespace Infrastructure.Repositories
             return result > 0;
         }
 
+        // Adds a new user to the database.
+        // The entity is tracked by EF Core after being added.
         public async Task<Result> Register(UserEntity entity)
         {
-            var response = dbContext.Users.AddAsync(entity);
-            await dbContext.SaveChangesAsync();
-            return Result.Success();
-        }
+            var userAlreadyExist = await GetByEmailAsync(entity.Email);
+            if (userAlreadyExist != null) return Result.Failure(UserErrors.EmailNotUnique);
+            try
+            {
+                var response = await dbContext.Users.AddAsync(entity);
+                
+                await dbContext.SaveChangesAsync();
+                return Result.Success();
 
+            }
+            catch
+            {
+                return Result.Failure(UserErrors.ConflitOnSaveUser);
+            }
+                      
+        }
 
     }
 }

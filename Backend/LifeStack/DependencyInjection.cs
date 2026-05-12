@@ -1,6 +1,7 @@
 ﻿using Application;
 using Domain;
 using Infrastructure;
+using Infrastructure.Authentication;
 
 namespace Web.Api
 {
@@ -10,12 +11,14 @@ namespace Web.Api
         {
             services.AddApplicationDI().
                 AddInfrastructureDI(configuration)
-                .AddDomainDI(configuration);
+                .AddDomainDI(configuration)
+                .AuthenticationDI();
 
-            services.AddMvc(options =>
-            {
-                options.SuppressAsyncSuffixInActionNames = false;
-            });
+            //services.AddMvc(options =>
+            //{
+            //    options.SuppressAsyncSuffixInActionNames = false;
+            //});
+
             return services;
         }
     }
