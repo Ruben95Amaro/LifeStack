@@ -5,11 +5,9 @@ namespace Domain.Users.Entities
 {
     public static class UserErrors
     {
-        public static Error NotFound(Guid userId) => Error.NotFound(
+        public static Error NotFound(Guid id) => Error.NotFound(
             "Users.NotFound",
-            $"The user with the Id = '{userId}' was not found");
-
-
+            $"The user with the Id = '{id}' was not found");
         public static Error Unauthorized() => Error.Failure(
             "Users.Unauthorized",
             "You are not authorized to perform this action.");
@@ -22,9 +20,13 @@ namespace Domain.Users.Entities
            "Users.NotFoundById",
            "The user with the specified Id was not found");
 
-        public static readonly Error NotValidEmail = Error.NotFound(
+        public static readonly Error NotValidEmail = Error.Failure(
         "Users.NotValidEmail",
         "The Email is not valid");
+
+        public static readonly Error PasswordInvalid = Error.Failure(
+        "Users.PasswordInvalid",
+        "Password Invalid");
 
         public static readonly Error NotAtInEmail = Error.NotFound(
         "Users.NotAtInEmail",
@@ -50,6 +52,7 @@ namespace Domain.Users.Entities
         public static readonly Error BirthDayNotInTheFuture = Error.Conflict(
     "Users.BirthDayNotInTheFuture",
      "Birthday cannot be in the future");
+
 
     }
 }

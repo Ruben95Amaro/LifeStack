@@ -8,7 +8,7 @@ namespace Application.Users.Commands;
 
 // Command representing the intent to update a user by Id.
 // Using a record ensures immutability and aligns well with MediatR practices.
-public record UpdateUserCommand(string userId, UserDTO UserDTO)
+public record UpdateUserCommand(Guid Id, UserDTO UserDTO)
     : IRequest<Result>;
 
 public class UpdateUserCommandHandler(IUserRepository userRepository)
@@ -16,23 +16,16 @@ public class UpdateUserCommandHandler(IUserRepository userRepository)
 {
     public async Task<Result> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
-        var user = await userRepository.GetUserByIdAsync(request.userId);
+        var user = await userRepository.GetByIdAsync(request.Id);
 
         if (user == null)
             Result.Failure(UserErrors.NotFoundByEmail);
 
-        var userUpdateResponse = user.Update(request.UserDTO.FirstName, request.UserDTO.LastName, request.UserDTO.Email);
+        var userUpdateResponse = user.Update(request.UserDTO.FirstName, request.UserDTO.LastName, request.UserDTO.Email, request.UserDTO.Password);
 
         if (userUpdateResponse.IsSuccess)
-        {
-            await userRepository.UpdateUserAsync(user.Id, user);
-                
-        }
-        return userUpdateResponse;
-        
+            await userRepository.UpdateAsync(user.Id, user);
 
+        return userUpdateResponse;
     }
 }
-
-
-

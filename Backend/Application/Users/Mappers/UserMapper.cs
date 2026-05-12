@@ -1,5 +1,7 @@
 ﻿using Application.Users.DTOs;
-using Domain.Users.Entities;
+using Microsoft.AspNetCore.Identity;
+using SharedKernel.InfoValidation;
+
 
 namespace Application.Users.Mappers
 {
@@ -11,12 +13,23 @@ namespace Application.Users.Mappers
             LastName = user.LastName,
             Email = user.Email,
             PhoneNumber = user.PhoneNumber,
-            UserName = user.UserName
+            UserName = user.UserName,
+            Password = user.PasswordHash
         };
 
-        public static UserEntity FromDTO(UserDTO userDTO)
+        public static Result<UserEntity> FromDTO(UserDTO userDTO)
         {
-            return new UserEntity(userDTO.FirstName, userDTO.LastName, userDTO.Email ); // userDTO.PhoneNumber
+            var resultUserCreation = UserEntity.CreateUser(
+                userDTO.Email,
+                userDTO.FirstName,
+                userDTO.LastName,
+                userDTO.Password
+            );
+
+            if (resultUserCreation.IsFailure)
+                return Result.Failure<UserEntity>(resultUserCreation.Error);
+
+            return Result.Success(resultUserCreation.Value);
         }
     }
 }

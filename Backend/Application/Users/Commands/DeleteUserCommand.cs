@@ -12,7 +12,7 @@ namespace Application.Users.Commands
 {
     // Command representing the intent to delete a user by Id.
     // Using a record ensures immutability and aligns well with MediatR practices.
-    public record DeleteUserCommand(string userId)
+    public record DeleteUserCommand(Guid id)
     : IRequest<bool>;
 
     internal class DeleteUserCommandHandler(IUserRepository userRepository)
@@ -20,12 +20,12 @@ namespace Application.Users.Commands
     {
         public async Task<bool> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
-            UserEntity user = await userRepository.GetUserByIdAsync(request.userId);
+            UserEntity user = await userRepository.GetByIdAsync(request.id);
 
             if (user is null)
                 throw new Exception("User not found");
 
-            var result = await userRepository.DeleteUserAsync(user);
+            var result = await userRepository.DeleteAsync(user);
 
             if (!result)
                 throw new Exception("Failed to delete user");
