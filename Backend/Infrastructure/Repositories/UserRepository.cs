@@ -51,7 +51,6 @@ namespace Infrastructure.Repositories
             try
             {
                 var response = await dbContext.Users.AddAsync(entity);
-                
                 await dbContext.SaveChangesAsync();
                 return Result.Success();
 

@@ -23,8 +23,7 @@ namespace Infrastructure
         IConfiguration configuration) =>
         services
             .AddDatabase(configuration)
-            .AddHealthChecks(configuration)
-            .AddAuthenticationInternal(configuration);
+            .AddHealthChecks(configuration);
 
         private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
         {
@@ -50,40 +49,5 @@ namespace Infrastructure
             return services;
         }
 
-        private static IServiceCollection AddAuthenticationInternal(
-        this IServiceCollection services,
-        IConfiguration configuration)
-        {
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(o =>
-                {
-                    var secret = configuration["Jwt:Secret"];
-                    if (string.IsNullOrWhiteSpace(secret))
-                        throw new Exception("Jwt:Secret isn't configurated");
-
-                    var issuer = configuration["Jwt:Issuer"];
-                    if (string.IsNullOrWhiteSpace(issuer))
-                        throw new Exception("Jwt:Issuer isn't configurated");
-
-                    var audience = configuration["Jwt:Audience"];
-                    if (string.IsNullOrWhiteSpace(audience))
-                        throw new Exception("Jwt:Audience isn't configurated");
-
-                    o.RequireHttpsMetadata = false;
-                    o.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret!)),
-                        ValidIssuer = issuer!,
-                        ValidAudience = audience!,
-                        ClockSkew = TimeSpan.Zero
-                    };
-                });
-
-            services.AddHttpContextAccessor();
-            services.AddSingleton<IPasswordHasher, PasswordHasher>();
-            services.AddSingleton<ITokenProvider, TokenProvider>();
-
-            return services;
-        }
     }
 }

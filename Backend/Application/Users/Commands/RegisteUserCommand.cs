@@ -28,7 +28,7 @@ namespace Application.Users.Commands
             var resultUserCreation = UserMapper.FromDTO(request.User);
 
             if (resultUserCreation.IsFailure)
-                return Result.Failure<UserEntity>(resultUserCreation.Error);
+                return Result.Failure(resultUserCreation.Error);
 
             resultUserCreation.Value.PasswordHash =
                 passwordHasher.Hash(resultUserCreation.Value.PasswordHash);
@@ -37,9 +37,9 @@ namespace Application.Users.Commands
                 await userRepository.Register(resultUserCreation.Value);
 
             if (userSavedResponse.IsFailure)
-                return Result.Failure<UserEntity>(userSavedResponse.Error);
+                return Result.Failure(userSavedResponse.Error);
 
-            return Result.Success(resultUserCreation.Value);
+            return Result<UserEntity>.Success(resultUserCreation.Value);
         }
     }
 

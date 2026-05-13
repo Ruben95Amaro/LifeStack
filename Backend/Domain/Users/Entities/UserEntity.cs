@@ -31,18 +31,18 @@ public class UserEntity : IdentityUser<Guid>
         var user = new UserEntity();
 
         var emailResult = user.SetEmail(email);
-        if (emailResult.IsFailure) return Result.Failure<UserEntity>(emailResult.Error);
+        if (emailResult.IsFailure) return Result.Failure(emailResult.Error);
 
         var nameResult = user.SetName(firstName, lastName);
-        if (nameResult.IsFailure) return Result.Failure<UserEntity>(nameResult.Error);
+        if (nameResult.IsFailure) return Result.Failure(nameResult.Error);
 
         var passResult = user.SetPassword(passwordHash);
-        if (passResult.IsFailure) return Result.Failure<UserEntity>(passResult.Error);
+        if (passResult.IsFailure) return Result.Failure(passResult.Error);
 
         user.Id = Guid.NewGuid();
         user.CreatedAt = DateTime.UtcNow.ToString();
 
-        return Result.Success(user);
+        return Result<UserEntity>.Success(user);
     }
     public Result Update(string firstName, string lastName, string email, string passwordHash)
     {

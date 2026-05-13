@@ -27,9 +27,9 @@ namespace Application.Users.Mappers
             );
 
             if (resultUserCreation.IsFailure)
-                return Result.Failure<UserEntity>(resultUserCreation.Error);
+                return Result.Failure(resultUserCreation.Error);
 
-            return Result.Success(resultUserCreation.Value);
+            return Result<UserEntity>.Success(resultUserCreation.Value);
         }
     }
 }
