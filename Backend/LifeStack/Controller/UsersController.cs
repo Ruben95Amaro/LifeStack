@@ -3,6 +3,7 @@ using Application.Users.DTOs;
 using Application.Users.Login;
 using Application.Users.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -10,7 +11,6 @@ namespace Web.Api.Controller
 {
     [ApiController]
     [Route("api/[controller]")]
-
     public class UsersController(ISender sender) : ControllerBase
     {
         // HTTP POST endpoint to create a new user.
@@ -42,6 +42,8 @@ namespace Web.Api.Controller
         }
 
         [HttpGet("All")]
+        [Authorize]
+
         public async Task<IActionResult> GetAllUsersAsync()
         {
             var result = await sender.Send(new GetAllUsersQuery());
@@ -49,6 +51,8 @@ namespace Web.Api.Controller
         }
 
         [HttpGet("{id:guid}")]
+        [Authorize]
+
         public async Task<IActionResult> GetByIdAsync([FromRoute] Guid id)
         {
             var result = await sender.Send(new GetUserByIdQuery(id));
@@ -57,6 +61,8 @@ namespace Web.Api.Controller
         }
 
         [HttpPut("{id:guid}")]
+        [Authorize]
+
         public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromBody] UserDTO userDTO)
         {
 
@@ -65,6 +71,8 @@ namespace Web.Api.Controller
         }
 
         [HttpDelete("{id:guid}")]
+        [Authorize]
+
         public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
         {
             var result = await sender.Send(new DeleteUserCommand(id));
@@ -72,6 +80,8 @@ namespace Web.Api.Controller
         }
 
         [HttpGet("email")]
+        [Authorize]
+
         public async Task<IActionResult> GetByEmail([FromQuery] string email)
         {
             var result = await sender.Send(new GetUserByEmailQuery(email));
