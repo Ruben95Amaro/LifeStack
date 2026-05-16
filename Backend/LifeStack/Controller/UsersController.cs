@@ -2,17 +2,32 @@
 using Application.Users.DTOs;
 using Application.Users.Login;
 using Application.Users.Queries;
+using Domain.Users.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 
 namespace Web.Api.Controller
 {
-    [ApiController]
     [Route("api/[controller]")]
-    public class UsersController(ISender sender) : ControllerBase
+    [ApiController]
+    public class UsersController: ControllerBase
     {
+        public readonly ISender _sender;
+        public readonly UserManager<UserEntity> _userManager;
+        public readonly RoleManager<UserRoles> _roleManager;
+        public readonly IConfiguration _configuration;
+
+        public UsersController(ISender sender, UserManager<UserEntity> userManager, RoleManager<UserRoles> roleManager, IConfiguration configuration)
+        {
+            _sender = sender;
+            _userManager = userManager;
+            _roleManager = roleManager;
+            _configuration = configuration;
+        }
+
         // HTTP POST endpoint to create a new user.
         // Accepts a UserDTO from the request body.
         [HttpPost("")]
@@ -20,7 +35,7 @@ namespace Web.Api.Controller
         {
             try
             {
-                var result = await sender.Send(new RegisteUserCommand(userDTO));
+                var result = await _sender.Send(new RegisteUserCommand(userDTO));
 
                 if (result.IsFailure)
                     return Conflict(result.Error.Description);
@@ -42,11 +57,10 @@ namespace Web.Api.Controller
         }
 
         [HttpGet("All")]
-        [Authorize]
 
         public async Task<IActionResult> GetAllUsersAsync()
         {
-            var result = await sender.Send(new GetAllUsersQuery());
+            var result = await _sender.Send(new GetAllUsersQuery());
             return Ok(result);
         }
 
@@ -55,7 +69,7 @@ namespace Web.Api.Controller
 
         public async Task<IActionResult> GetByIdAsync([FromRoute] Guid id)
         {
-            var result = await sender.Send(new GetUserByIdQuery(id));
+            var result = await _sender.Send(new GetUserByIdQuery(id));
             if (!result.IsSuccess) return NotFound(result.Error.Description);
             return Ok(result);
         }
@@ -66,7 +80,7 @@ namespace Web.Api.Controller
         public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromBody] UserDTO userDTO)
         {
 
-            var result = await sender.Send(new UpdateUserCommand(id, userDTO));
+            var result = await _sender.Send(new UpdateUserCommand(id, userDTO));
             return Ok(result);
         }
 
@@ -75,23 +89,22 @@ namespace Web.Api.Controller
 
         public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
         {
-            var result = await sender.Send(new DeleteUserCommand(id));
+            var result = await _sender.Send(new DeleteUserCommand(id));
             return Ok(result);
         }
 
         [HttpGet("email")]
-        [Authorize]
 
         public async Task<IActionResult> GetByEmail([FromQuery] string email)
         {
-            var result = await sender.Send(new GetUserByEmailQuery(email));
+            var result = await _sender.Send(new GetUserByEmailQuery(email));
             return Ok(result);
         }
 
         [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] LoginDTO loginDTO )
         {
-            var result = await sender.Send(new LoginUserCommand(loginDTO));
+            var result = await _sender.Send(new LoginUserCommand(loginDTO));
 
             if (result.IsFailure)
                 return Unauthorized(result.Error.Description);

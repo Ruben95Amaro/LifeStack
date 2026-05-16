@@ -3,6 +3,7 @@ using Application.Users.DTOs;
 using Application.Users.Mappers;
 using Domain.Users.Interfaces;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using SharedKernel.InfoValidation;
 
 
@@ -30,8 +31,8 @@ namespace Application.Users.Commands
             if (resultUserCreation.IsFailure)
                 return Result.Failure(resultUserCreation.Error);
 
-            resultUserCreation.Value.PasswordHash =
-                passwordHasher.Hash(resultUserCreation.Value.PasswordHash);
+            //resultUserCreation.Value.PasswordHash =
+            //    passwordHasher.Hash(resultUserCreation.Value.PasswordHash);
 
             var userSavedResponse =
                 await userRepository.Register(resultUserCreation.Value);

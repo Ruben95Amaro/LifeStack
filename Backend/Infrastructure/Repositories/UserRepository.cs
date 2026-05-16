@@ -7,12 +7,12 @@ using SharedKernel.InfoValidation;
 
 namespace Infrastructure.Repositories
 {
-    public class UserRepository(ApplicationDbContext dbContext) : IUserRepository
+    public class UserRepository(ApplicationDbContext dbContext, UserManager<UserEntity> userManager) : IUserRepository
     {
 
 
         // Retrieves all users from the database.
-        public async Task<IEnumerable<UserEntity>> GetUsers() => await dbContext.Users.ToListAsync();
+        public async Task<IEnumerable<UserEntity>> GetUsers() => await userManager.Users.ToListAsync();
 
         // Retrieves a user by its identifier.
         public async Task<UserEntity> GetByIdAsync(Guid id) => await dbContext.Users.FirstOrDefaultAsync(user => user.Id == id);
@@ -23,8 +23,11 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                dbContext.Users.Update(entity);
-                await dbContext.SaveChangesAsync();
+                var response = await userManager.UpdateAsync(entity);
+
+                if (!response.Succeeded) return Result.Failure(UserErrors.ConflitOnSaveUser);
+                
+
                 return Result.Success();
             }
             catch
@@ -36,10 +39,10 @@ namespace Infrastructure.Repositories
 
         public async Task<bool> DeleteAsync(UserEntity entity)
         {
-            dbContext.Users.Remove(entity);
-            var result = await dbContext.SaveChangesAsync();
+            var result = await userManager.DeleteAsync(entity);
 
-            return result > 0;
+
+            return result.Succeeded;
         }
 
         // Adds a new user to the database.
@@ -50,8 +53,12 @@ namespace Infrastructure.Repositories
             if (userAlreadyExist != null) return Result.Failure(UserErrors.EmailNotUnique);
             try
             {
-                var response = await dbContext.Users.AddAsync(entity);
-                await dbContext.SaveChangesAsync();
+                var userCreated = await userManager.CreateAsync(entity, entity.PasswordHash);
+
+                if (!userCreated.Succeeded) return Result.Failure(UserErrors.ConflitOnSaveUser);
+
+                //var response = await dbContext.Users.AddAsync(entity);
+                //await dbContext.SaveChangesAsync();
                 return Result.Success();
 
             }

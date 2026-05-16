@@ -1,16 +1,13 @@
-﻿using Application.Abstractions.Authentication;
+﻿using Domain.Users.Entities;
 using Domain.Users.Interfaces;
-using Infrastructure.Authentication;
 using Infrastructure.Database;
 using Infrastructure.Repositories;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
+
 
 
 namespace Infrastructure
@@ -23,6 +20,8 @@ namespace Infrastructure
         IConfiguration configuration) =>
         services
             .AddDatabase(configuration)
+            .AddIdentityRoles()
+            .AddPolicy()
             .AddHealthChecks(configuration);
 
         private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
@@ -45,6 +44,33 @@ namespace Infrastructure
             services
                 .AddHealthChecks()
                 .AddNpgSql(configuration.GetConnectionString("DefaultConnection")!);
+
+            return services;
+        }
+
+        private static IServiceCollection AddIdentityRoles(this IServiceCollection services)
+        {
+            services
+                .AddIdentity<UserEntity, UserRoles>(options =>
+                {
+                    options.Password.RequireDigit = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequiredLength = 5;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireUppercase = false;
+                })
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
+            return services;
+        }
+        public static IServiceCollection AddPolicy(this IServiceCollection services)
+        {
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
+                options.AddPolicy("UserPolicy", policy => policy.RequireRole("User"));
+            });
 
             return services;
         }
