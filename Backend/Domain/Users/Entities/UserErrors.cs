@@ -1,0 +1,61 @@
+﻿using SharedKernel.InfoValidation;
+
+
+namespace Domain.Users.Entities
+{
+    public static class UserErrors
+    {
+        public static Error NotFound(Guid id) => Error.NotFound(
+            "Users.NotFound",
+            $"The user with the Id = '{id}' was not found");
+        public static Error Unauthorized() => Error.Failure(
+            "Users.Unauthorized",
+            "You are not authorized to perform this action.");
+
+        public static readonly Error NotFoundByEmail = Error.NotFound(
+            "Users.NotFoundByEmail",
+            "The user with the specified email was not found");
+
+        public static readonly Error NotFoundById = Error.NotFound(
+           "Users.NotFoundById",
+           "The user with the specified Id was not found");
+
+        public static readonly Error NotValidEmail = Error.Failure(
+        "Users.NotValidEmail",
+        "The Email is not valid");
+
+        public static readonly Error PasswordInvalid = Error.Failure(
+        "Users.PasswordInvalid",
+        "Password Invalid");
+
+        public static readonly Error NotAtInEmail = Error.NotFound(
+        "Users.NotAtInEmail",
+        "The Email doesn't contain @");
+
+        public static readonly Error EmailNotUnique = Error.Conflict(
+            "Users.EmailNotUnique",
+            "The provided email is not unique");
+
+        public static readonly Error RequiredEmail = Error.Conflict(
+            "Users.RequiredEmail",
+            "Email is required");
+
+        public static readonly Error RequiredFirstName = Error.Conflict(
+            "Users.RequiredFirstName",
+             "First name is required");
+
+        public static readonly Error RequiredLastName = Error.Conflict(
+    "Users.RequiredLastName",
+     "LastName name is required");
+
+
+        public static readonly Error BirthDayNotInTheFuture = Error.Conflict(
+    "Users.BirthDayNotInTheFuture",
+     "Birthday cannot be in the future");
+
+        public static readonly Error ConflitOnSaveUser = Error.Conflict(
+   "Users.ConflitOnSaveUser",
+    "Error on save on user on DataBase ");
+
+    }
+}
