@@ -13,6 +13,10 @@ public class UserEntity : IdentityUser<Guid>
 
     public string FullName => $"{FirstName} {LastName}";
 
+    public bool IsDeleted { get; protected set; }
+
+    public DateTime? UpdatedAt { get; protected set; }
+
     private UserEntity() { }
 
     private UserEntity(Guid id, string email, string firstName, string lastName, string passwordHash)
@@ -111,4 +115,11 @@ public class UserEntity : IdentityUser<Guid>
         PasswordHash = passwordHash;
         return Result.Success();
     }
+
+    public void MarkAsDeleted()
+    {
+        IsDeleted = true;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
 }

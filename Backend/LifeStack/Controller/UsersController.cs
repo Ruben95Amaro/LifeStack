@@ -93,6 +93,7 @@ namespace Web.Api.Controller
             return Ok(result);
         }
 
+
         [HttpGet("email")]
 
         public async Task<IActionResult> GetByEmail([FromQuery] string email)

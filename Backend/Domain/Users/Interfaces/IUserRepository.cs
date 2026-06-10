@@ -26,6 +26,7 @@ namespace Domain.Users.Interfaces
         Task<bool> DeleteAsync(UserEntity entity);
 
 
+
         // Defines a contract for adding a new user to the data store.
         // Accepts a domain entity as input, keeping the repository aligned with the domain layer.
         Task<Result> Register(UserEntity entity);

@@ -39,10 +39,21 @@ namespace Infrastructure.Repositories
 
         public async Task<bool> DeleteAsync(UserEntity entity)
         {
-            var result = await userManager.DeleteAsync(entity);
+            if (!entity.IsDeleted)
+            {
+                entity.MarkAsDeleted();
 
+                var result = await userManager.UpdateAsync(entity);
 
-            return result.Succeeded;
+                return result.Succeeded;
+            }
+            else
+            {
+                var result = await userManager.DeleteAsync(entity);
+
+                return result.Succeeded;
+            }
+               
         }
 
         // Adds a new user to the database.
